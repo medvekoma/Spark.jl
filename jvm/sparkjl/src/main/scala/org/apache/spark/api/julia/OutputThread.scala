@@ -1,10 +1,10 @@
 package org.apache.spark.api.julia
 
-import java.io.{DataOutputStream, BufferedOutputStream}
+import java.io.{BufferedOutputStream, DataOutputStream}
 import java.net.Socket
 
 import org.apache.spark.util.Utils
-import org.apache.spark.{TaskContext, Partition, SparkEnv}
+import org.apache.spark.{Partition, SparkEnv, TaskContext}
 
 /**
  * The thread responsible for writing the data from the JuliaRDD's parent iterator to the
@@ -62,10 +62,15 @@ class OutputThread(context: TaskContext, it: Iterator[Any], worker: Socket, comm
     } finally {
       // Release memory used by this thread for shuffles
       // env.shuffleMemoryManager.releaseMemoryForThisThread()
-      env.shuffleMemoryManager.releaseMemoryForThisTask()
+
+      //TODO backward compatibility issue
+      //env.shuffleMemoryManager.releaseMemoryForThisTask()
+
       // Release memory used by this thread for unrolling blocks
       // env.blockManager.memoryStore.releaseUnrollMemoryForThisThread()
-      env.blockManager.memoryStore.releaseUnrollMemoryForThisTask()
+
+      //TODO backward compatibility issue
+      //env.blockManager.memoryStore.releaseUnrollMemoryForThisTask()
     }
   }
 
