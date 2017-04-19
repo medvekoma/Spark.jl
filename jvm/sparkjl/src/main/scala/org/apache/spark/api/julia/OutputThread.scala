@@ -1,16 +1,16 @@
 package org.apache.spark.api.julia
 
-import java.io.{DataOutputStream, BufferedOutputStream}
+import java.io.{BufferedOutputStream, DataOutputStream}
 import java.net.Socket
 
 import org.apache.spark.util.Utils
-import org.apache.spark.{TaskContext, Partition, SparkEnv}
+import org.apache.spark.{Partition, SparkEnv, TaskContext}
 
 /**
  * The thread responsible for writing the data from the JuliaRDD's parent iterator to the
  * Julia process.
  */
-class OutputThread(context: TaskContext, it: Iterator[Array[Byte]], worker: Socket, command: Array[Byte], inputType: Array[Byte], split: Partition)
+class OutputThread(context: TaskContext, it: Iterator[Any], worker: Socket, command: Array[Byte], split: Partition)
     extends Thread(s"stdout writer for julia") {
 
   val BUFFER_SIZE = 65536
@@ -35,15 +35,12 @@ class OutputThread(context: TaskContext, it: Iterator[Array[Byte]], worker: Sock
       // partition index
       dataOut.writeInt(split.index)
       dataOut.flush()
-      // input type
-      dataOut.write(inputType)
-      dataOut.flush()
       // serialized command:
       dataOut.writeInt(command.length)
       dataOut.write(command)
       dataOut.flush()
       // data values
-      JuliaRDD.writeIteratorToStream(it, dataOut)
+      writeIteratorToStream(it, dataOut)
       dataOut.writeInt(SpecialLengths.END_OF_DATA_SECTION)
       dataOut.writeInt(SpecialLengths.END_OF_STREAM)
       dataOut.flush()
@@ -65,10 +62,23 @@ class OutputThread(context: TaskContext, it: Iterator[Array[Byte]], worker: Sock
     } finally {
       // Release memory used by this thread for shuffles
       // env.shuffleMemoryManager.releaseMemoryForThisThread()
-      env.shuffleMemoryManager.releaseMemoryForThisTask()
+
+      //TODO backward compatibility issue
+      //env.shuffleMemoryManager.releaseMemoryForThisTask()
+
       // Release memory used by this thread for unrolling blocks
       // env.blockManager.memoryStore.releaseUnrollMemoryForThisThread()
-      env.blockManager.memoryStore.releaseUnrollMemoryForThisTask()
+
+      //TODO backward compatibility issue
+      //env.blockManager.memoryStore.releaseUnrollMemoryForThisTask()
     }
   }
+
+  def writeIteratorToStream[T](iter: Iterator[T], dataOut: DataOutputStream) {
+    def write(obj: Any): Unit = {
+      JuliaRDD.writeValueToStream(obj, dataOut)
+    }
+    iter.foreach(write)
+  }
+
 }
