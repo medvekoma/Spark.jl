@@ -62,7 +62,7 @@ end
 # as_java_rdd returns a JJavaRDD or JJavaPairRDD class
 as_java_rdd(rdd::RDD) = rdd.jrdd
 as_java_rdd(rdd::PipelinedRDD) = jcall(rdd.jrdd, "asJavaRDD", JJavaRDD, ())
-as_java_rdd(rdd::PipelinedPairRDD) = jcall(rdd.jrdd, "asJavaPairRDD", JJavaPairRDD, ())
+as_java_rdd(rdd::PipelinedPairRDD) = jcall(rdd.jrdd, "asJavaRDD", JJavaPairRDD, ())
 
 # as_java_rdd returns a JRDD class
 as_rdd(rdd::RDD) = jcall(rdd.jrdd, "rdd", JRDD, ())
