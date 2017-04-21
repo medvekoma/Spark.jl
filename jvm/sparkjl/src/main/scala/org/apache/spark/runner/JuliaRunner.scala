@@ -71,7 +71,7 @@ object JuliaRunner extends Logging{
     }
 
     var processParameters = new java.util.ArrayList[String]
-    // Julia interpreter is needed to run the julia script 
+    // Julia interpreter is needed to run the julia script
     processParameters.add("julia")
     processParameters.add(formatPath(csharpExecutable))
     otherArgs.foreach( arg => processParameters.add(arg) )

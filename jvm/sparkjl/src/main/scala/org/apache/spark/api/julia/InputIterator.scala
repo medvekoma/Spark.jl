@@ -7,7 +7,6 @@ import org.apache.commons.compress.utils.Charsets
 import org.apache.spark._
 import org.apache.spark.internal.Logging
 
-
 /**
  * Iterator that connects to a Julia process and reads data back to JVM.
  * */

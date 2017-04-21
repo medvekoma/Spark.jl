@@ -6,7 +6,7 @@ function init()
     try
         print("JVM starting from init.jl")
         # prevent exceptions in REPL on code reloading
-        JavaCall.init(["-ea", "-Xmx1024M", "-Djava.class.path=$classpath -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=4000"])
+        JavaCall.init(["-ea", "-Xmx1024M", "-Djava.class.path=$classpath", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=4000"])
     end
 end
 
