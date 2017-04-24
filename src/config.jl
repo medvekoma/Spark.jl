@@ -41,3 +41,7 @@ end
 function setappname(conf::SparkConf, appname::AbstractString)
     jcall(conf.jconf, "setAppName", JSparkConf, (JString,), appname)
 end
+
+function setdeploy(conf::SparkConf, deploymode::AbstractString)
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "deploy-mode", deploymode)
+end
