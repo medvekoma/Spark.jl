@@ -44,4 +44,12 @@ end
 
 function setdeploy(conf::SparkConf, deploymode::AbstractString)
     jcall(conf.jconf, "set", JSparkConf, (JString, JString), "deploy-mode", deploymode)
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.executor.instances", "1")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.dynamicAllocation.enabled", "true")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.dynamicAllocation.minExecutors", "2")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.dynamicAllocation.maxExecutors", "40")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.dynamicAllocation.initialExecutors", "2")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.shuffle.service.enabled", "true")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.driver.cores", "1")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.executor.cores", "1")
 end
