@@ -17,3 +17,5 @@ function init()
         JavaCall.init(["-ea", "-Xmx1024M", "-cp $classpath", "-Djava.class.path=$classpath"])
     end
 end
+
+init()
