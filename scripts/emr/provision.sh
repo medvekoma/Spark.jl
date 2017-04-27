@@ -1,7 +1,7 @@
 #!/bin/sh
 
 CLUSTER_NAME=${1-${USER}-juliapoc}
-CORE_COUNT=1
+CORE_COUNT=3
 TASK_COUNT=0
 SPOT_BIDPRICE=0.09
 INSTANCE_TYPE=c4.large
@@ -37,6 +37,7 @@ aws emr create-cluster \
 	--instance-groups \
 	  InstanceGroupType=MASTER,InstanceCount=1,InstanceType=$INSTANCE_TYPE,BidPrice=$SPOT_BIDPRICE \
 	  InstanceGroupType=CORE,InstanceCount=$CORE_COUNT,InstanceType=$INSTANCE_TYPE,BidPrice=$SPOT_BIDPRICE \
+	  InstanceGroupType=TASK,InstanceCount=$TASK_COUNT,InstanceType=$INSTANCE_TYPE,BidPrice=$SPOT_BIDPRICE \
 	${AWS_PROFILE}
 #	--steps \
 #	  Type=CUSTOM_JAR,Name=Setup,ActionOnFailure=CANCEL_AND_WAIT,Jar=s3://us-west-1.elasticmapreduce/libs/script-runner/script-runner.jar,Args=["$S3_RUN"] 
