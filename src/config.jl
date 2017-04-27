@@ -52,4 +52,8 @@ function setdeploy(conf::SparkConf, deploymode::AbstractString)
     jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.shuffle.service.enabled", "true")
     jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.driver.cores", "1")
     jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.executor.cores", "1")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.executor.memory", "1200M")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.yarn.executor.memoryOverhead", "500M")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "yarn.scheduler.maximum-allocation-mb", "6G")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "yarn.nodemanager.resource.memory-mb", "6G")
 end
