@@ -77,8 +77,9 @@ object JuliaRDD extends Logging {
       //val juliaHome = sys.env.get("JULIA_HOME")
       //val juliaCommand = juliaHome + "julia"
       //TODO read julia command path from env variable
-      val pb = new ProcessBuilder(Seq("/usr/local/julia-6445c82d00/bin/julia", "-e", "using Spark; using Iterators; Spark.launch_worker()"))
+      val pb = new ProcessBuilder(Seq("/usr/local/julia-6445c82d00/bin/julia", "-e", "using Spark; using Iterators; Spark.launch_worker();"))
       pb.directory(new File(SparkFiles.getRootDirectory()))
+      pb.environment().put("JULIA_PKGDIR", "/home/hadoop/.julia/")
       // val workerEnv = pb.environment()
       // workerEnv.putAll(envVars)
       val worker = pb.start()
