@@ -7,9 +7,9 @@ function init()
     classpath = @static is_windows() ? "$envcp;$sparkjlassembly" : "$envcp:$sparkjlassembly"
     classpath = "$classpath:$hadoopConfDir:$yarnConfDir:$emrfslib"
     try
-        print("JVM starting from init.jl")
+        println("JVM starting from init.jl")
         # prevent exceptions in REPL on code reloading
-        
+
         # JVM start in debug mode
         #JavaCall.init(["-ea", "-Xmx1024M", "-Djava.class.path=$classpath", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=4000"])
 
