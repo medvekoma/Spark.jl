@@ -1,4 +1,5 @@
 # test filter
+sc = SparkContext(master="local")
 
 nums1 = parallelize(sc, 1:30)
 n2 = filter(nums1, x->(x>10))
@@ -13,6 +14,4 @@ pn3 = filter(pnums1, x->(x[1]<15 && x[2]>5))
 @test count(pn2) == 180
 @test count(pn3) == 350
 
-
-
-print("Test passed\n\n\n")
+close(sc)

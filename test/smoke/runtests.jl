@@ -1,13 +1,17 @@
 using Spark
 using Base.Test
 
-sc = SparkContext(master = "local")
+#sc = SparkContext(master = "local")
+sc = SparkContext(master = "yarn")
+
+
 
 include("basic.jl")
 include("map.jl")
 include("map_partitions.jl")
 include("attach.jl")
 include("reduce.jl")
+
 include("text_file.jl")
 include("share_variable.jl")
 include("flat_map.jl")

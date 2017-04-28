@@ -3,3 +3,6 @@
 txt = parallelize(sc, ["hello", "world"])
 
 @test reduce(txt, *) == "helloworld"
+
+
+print("Test passed\n\n\n")

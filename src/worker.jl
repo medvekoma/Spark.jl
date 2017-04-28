@@ -74,7 +74,7 @@ function writeobj(io::IO, x::Integer)
 end
 
 function load_stream(io::IO)
-    function it()        
+    function it()
         code, _next = readobj(io)
         while code != END_OF_DATA_SECTION
             produce(_next)
@@ -103,26 +103,29 @@ end
 
 function launch_worker()
     include_attached()
-    port = parse(Int, readline(STDIN))    
+    port = parse(Int, readline(STDIN))
     sock = connect("127.0.0.1", port)
     try
         split = readint(sock)
-        # info("Julia: starting partition id: $split")
+        #info("Julia: starting partition id: $split")
         func = readobj(sock)[2]
         it = load_stream(sock)
         dump_stream(sock, func(split, it))
         writeint(sock, END_OF_DATA_SECTION)
         writeint(sock, END_OF_STREAM)
-        # info("Julia: exiting")
+        info("Julia: exiting normally")
     catch e
         # TODO: handle the case when JVM closes connection
+        info("Exception Handler")
         io = IOBuffer()
         Base.show_backtrace(io, catch_backtrace())
         seekstart(io)
-        bt = readall(io)
+        bt = readstring(io)
+        info(e)
         info(bt)
-        write(STDERR, bt)
+        write(sock, bt)
         writeint(sock, JULIA_EXCEPTION_THROWN)
-        rethrow()
+        info("Written error response to socket. Exiting")
+        #rethrow()
     end
 end

@@ -1,4 +1,5 @@
 # test repartition and coalesce
+sc = SparkContext(master="local")
 
 nums1 = parallelize(sc, 1:30)
 @test num_partitions(nums1) == 1
@@ -18,5 +19,4 @@ pnums2 = coalesce(pnums3, 2)
 pnums2 = coalesce(pnums3, 2; shuffle=true)
 @test num_partitions(pnums2) == 2
 
-
-print("Test passed\n\n\n")
+close(sc)

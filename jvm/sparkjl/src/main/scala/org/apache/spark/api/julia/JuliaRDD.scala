@@ -24,6 +24,9 @@ class AbstractJuliaRDD[T:ClassTag](
 
   override def getPartitions: Array[Partition] = firstParent.partitions
 
+  // Note: needs to override in later versions of Spark
+  def getNumPartitions: Int = firstParent.partitions.length
+
   override val partitioner: Option[Partitioner] = {
     if (preservePartitioning) firstParent.partitioner else None
   }
@@ -90,7 +93,7 @@ object JuliaRDD extends Logging {
       out.flush()
 
       // Wait for it to connect to our socket
-      serverSocket.setSoTimeout(10000)
+      serverSocket.setSoTimeout(50000)
       try {
         val socket = serverSocket.accept()
         // workers.put(socket, worker)
@@ -229,7 +232,7 @@ object JuliaRDD extends Logging {
 }
 
 class JuliaPairRDD(@transient parent: RDD[_],command: Array[Byte]) extends AbstractJuliaRDD[(Any, Any)](parent, command) {
-  def asJavaRDD(): JavaPairRDD[Any, Any] = {
+  def asJavaPairRDD(): JavaPairRDD[Any, Any] = {
     JavaPairRDD.fromRDD(this)
   }
 }
