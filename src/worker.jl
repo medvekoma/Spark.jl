@@ -121,9 +121,11 @@ function launch_worker()
         Base.show_backtrace(io, catch_backtrace())
         seekstart(io)
         bt = readstring(io)
+        info(e)
         info(bt)
         write(STDERR, bt)
         writeint(sock, JULIA_EXCEPTION_THROWN)
+        info("Written response to socket. Rethrowing")
         rethrow()
     end
 end
