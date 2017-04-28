@@ -123,9 +123,9 @@ function launch_worker()
         bt = readstring(io)
         info(e)
         info(bt)
-        write(STDERR, bt)
+        write(sock, bt)
         writeint(sock, JULIA_EXCEPTION_THROWN)
-        info("Written response to socket. Rethrowing")
-        rethrow()
+        info("Written error response to socket. Exiting")
+        #rethrow()
     end
 end
