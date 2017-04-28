@@ -37,7 +37,6 @@ aws emr create-cluster \
 	--instance-groups \
 	  InstanceGroupType=MASTER,InstanceCount=1,InstanceType=$INSTANCE_TYPE,BidPrice=$SPOT_BIDPRICE \
 	  InstanceGroupType=CORE,InstanceCount=$CORE_COUNT,InstanceType=$INSTANCE_TYPE,BidPrice=$SPOT_BIDPRICE \
-	  InstanceGroupType=TASK,InstanceCount=$TASK_COUNT,InstanceType=$INSTANCE_TYPE,BidPrice=$SPOT_BIDPRICE \
 	${AWS_PROFILE}
 #	--steps \
 #	  Type=CUSTOM_JAR,Name=Setup,ActionOnFailure=CANCEL_AND_WAIT,Jar=s3://us-west-1.elasticmapreduce/libs/script-runner/script-runner.jar,Args=["$S3_RUN"] 
