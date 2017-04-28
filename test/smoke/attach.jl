@@ -7,3 +7,6 @@ txt = parallelize(sc, ["hello", "world"])
 rdd = map_partitions(txt, it -> map(func, it))
 
 @test reduce(rdd, +) == 14
+
+
+print("Test passed\n\n\n")

@@ -17,3 +17,6 @@ pnums2 = coalesce(pnums3, 2)
 @test num_partitions(pnums2) == 2
 pnums2 = coalesce(pnums3, 2; shuffle=true)
 @test num_partitions(pnums2) == 2
+
+
+print("Test passed\n\n\n")
