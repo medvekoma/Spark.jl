@@ -4,7 +4,7 @@ CLUSTER_NAME=${1-${USER}-juliapoc}
 CORE_COUNT=3
 TASK_COUNT=0
 SPOT_BIDPRICE=0.09
-INSTANCE_TYPE=c4.large
+INSTANCE_TYPE=c4.xlarge
 
 : ${SPARKJL_REPO:="JohnAdders"}
 : ${SPARKJL_BRANCH:="shared"}
