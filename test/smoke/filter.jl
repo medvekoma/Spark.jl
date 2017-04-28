@@ -12,3 +12,7 @@ pn2 = filter(pnums1, x->(x[1]>10 && x[2]<10))
 pn3 = filter(pnums1, x->(x[1]<15 && x[2]>5))
 @test count(pn2) == 180
 @test count(pn3) == 350
+
+
+
+print("Test passed\n\n\n")

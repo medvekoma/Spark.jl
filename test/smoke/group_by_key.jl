@@ -6,3 +6,7 @@ rdd = cartesian(nums1, nums2)
 rdd2 = group_by_key(rdd)
 rdd3 = map(rdd2, it -> it[1] + sum(it[2]))
 @test reduce(rdd3, +) == 15
+
+
+
+print("Test passed\n\n\n")

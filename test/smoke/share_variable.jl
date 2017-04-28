@@ -9,3 +9,6 @@ txt = parallelize(sc, ["hello", "world"])
 rdd = map(txt, it -> length(it) + a)
 
 @test reduce(rdd, +) == 14
+
+
+print("Test passed\n\n\n")
