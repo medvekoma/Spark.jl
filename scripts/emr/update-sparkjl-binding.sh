@@ -1,5 +1,8 @@
 #!/bin/sh
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #"
+
+
 command -v jq >/dev/null 2>&1 || { echo >&2 "This script requires jq. Install it from https://stedolan.github.io/jq/download/"; exit 1; }
 
 : ${SPARKJL_REPO:="JohnAdders"}
@@ -16,7 +19,7 @@ fi
 aws emr list-instances --cluster-id $CLUSTER_ID | jq -r .Instances[].PublicDnsName | while read line; do 
 	node=`echo $line | sed 's/[^a-zA-Z0-9\.\-]//g'` 
 	echo "--- $node ---"
-	ssh -n $node "julia -e '
+	ssh -i ${SCRIPT_DIR}/DevTeamEPAM.pem  -n hadoop@$node "julia -e '
 		Pkg.free(\"Spark\")
 		Pkg.rm(\"Spark\")
 		Pkg.clone(\"https://github.com/'$SPARKJL_REPO'/Spark.jl\")
