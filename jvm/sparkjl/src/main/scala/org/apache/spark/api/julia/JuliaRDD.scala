@@ -25,7 +25,7 @@ class AbstractJuliaRDD[T:ClassTag](
   override def getPartitions: Array[Partition] = firstParent.partitions
 
   // Note: needs to override in later versions of Spark
-  def getNumPartitions: Int = firstParent.partitions.length
+  //override def getNumPartitions: Int = firstParent.partitions.length
 
   override val partitioner: Option[Partitioner] = {
     if (preservePartitioning) firstParent.partitioner else None
