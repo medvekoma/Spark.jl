@@ -13,4 +13,4 @@ EMR_USER="hadoop"
 
 
 echo "SSH to EMR master node: ${EMR_USER}@${MASTER_IP}"
-ssh  -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ${SCRIPT_DIR}/DevTeamEPAM.pem ${EMR_USER}@${MASTER_IP}
+ssh  -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -oServerAliveInterval=30 -i ${SCRIPT_DIR}/DevTeamEPAM.pem ${EMR_USER}@${MASTER_IP}
