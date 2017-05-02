@@ -22,5 +22,7 @@ for usr in "${users[@]}"; do
    sudo echo "export SPARK_CONF_DIR=/etc/spark/conf.dist/" >> ${ENV_FILE}
 done
 
+export SPARKJL_PROFILE=yarn
+
 # setup spark julia binding
 $JULIA_DIR/bin/julia -e 'Pkg.clone("https://github.com/'$1'/Spark.jl");Pkg.checkout("Spark","'$2'");Pkg.build("Spark")'
