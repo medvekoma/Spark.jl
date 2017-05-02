@@ -19,7 +19,7 @@ fi
 aws emr list-instances --cluster-id $CLUSTER_ID | jq -r .Instances[].PublicDnsName | while read line; do 
 	node=`echo $line | sed 's/[^a-zA-Z0-9\.\-]//g'` 
 	echo "--- $node ---"
-	ssh -i ${SCRIPT_DIR}/DevTeamEPAM.pem  -n hadoop@$node "julia -e '
+	ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -oServerAliveInterval=30 -i ${SCRIPT_DIR}/DevTeamEPAM.pem  -n hadoop@$node "julia -e '
 		Pkg.free(\"Spark\")
 		Pkg.rm(\"Spark\")
 		Pkg.clone(\"https://github.com/'$SPARKJL_REPO'/Spark.jl\")
