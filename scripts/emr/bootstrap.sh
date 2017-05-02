@@ -18,7 +18,8 @@ for usr in "${users[@]}"; do
    sudo echo "export SPARK_HOME=/usr/lib/spark/" >> ${ENV_FILE}
    sudo echo "export HADOOP_CONF_DIR=/etc/hadoop/conf" >> ${ENV_FILE}
    sudo echo "export YARN_CONF_DIR=/etc/hadoop/conf" >> ${ENV_FILE}
-   sudo echo "export PATH=${PATH}:${MAVEN_DIR}/bin:${JULIA_DIR}/bin" >> ${ENV_FILE}
+   sudo echo "export PATH=${PATH}:${MAVEN_DIR}/bin:${JULIA_DIR}/bin" >> ${ENV_FILE} 
+   sudo echo "export SPARK_CONF_DIR=/etc/spark/conf.dist/" >> ${ENV_FILE}
 done
 
 # setup spark julia binding
