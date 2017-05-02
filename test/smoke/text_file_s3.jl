@@ -1,4 +1,5 @@
 # test of text_file in AWS S3
+print("\n\n\nStarting test: "*(@__FILE__)*"\n")
 
 
 lines = text_file(sc, "s3://fms.develop/BelaBoros/input/LoremIpsum.txt")
@@ -19,4 +20,6 @@ println(collect(lineLengths))
 #@test numberOfCharacters == 446
 
 
-print("Test passed\n\n\n")
+
+
+print("Test passed: "*(@__FILE__)*"\n\n\n")

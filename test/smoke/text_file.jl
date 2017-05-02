@@ -1,4 +1,6 @@
 # test of text_file
+print("\n\n\nStarting test: "*(@__FILE__)*"\n")
+
 
 #txt = text_file(sc, "file:///etc/passwd")
 #txt = text_file(sc, @__FILE__)
@@ -10,4 +12,5 @@ nums  = map(txt, it -> length(it))
 @test reduce(nums, +) == 221
 
 
-print("Test passed\n\n\n")
+
+print("Test passed: "*(@__FILE__)*"\n\n\n")

@@ -1,4 +1,5 @@
 # test repartition and coalesce
+print("\n\n\nStarting test: "*(@__FILE__)*"\n")
 
 nums1 = parallelize(sc, 1:30)
 # in local mode the number of partitions will be 1,but
@@ -32,4 +33,5 @@ pnums2 = coalesce(pnums3, 2; shuffle=true)
 @test num_partitions(pnums2) == 2
 
 
-print("Test passed\n\n\n")
+
+print("Test passed: "*(@__FILE__)*"\n\n\n")

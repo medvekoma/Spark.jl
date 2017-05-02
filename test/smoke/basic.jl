@@ -1,5 +1,8 @@
 # test of basic functionality
 
+print("\n\n\nStarting test: "*(@__FILE__)*"\n")
+
+
 txt = parallelize(sc, ["hello", "world"])
 rdd = map_partitions(txt, it -> map(s -> length(s), it))
 
@@ -8,4 +11,4 @@ rdd = map_partitions(txt, it -> map(s -> length(s), it))
 
 
 
-print("Test passed\n\n\n")
+print("Test passed: "*(@__FILE__)*"\n\n\n")

@@ -1,4 +1,6 @@
 # tests the attach macro
+print("\n\n\nStarting test: "*(@__FILE__)*"\n")
+
 @attach a = 2
 @attach include("attach_include.jl")
 
@@ -9,4 +11,4 @@ rdd = map_partitions(txt, it -> map(func, it))
 @test reduce(rdd, +) == 14
 
 
-print("Test passed\n\n\n")
+print("Test passed:"*(@__FILE__)*"\n\n\n")
