@@ -56,4 +56,11 @@ function setdeploy(conf::SparkConf, deploymode::AbstractString)
     jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.yarn.executor.memoryOverhead", "2048M")
     jcall(conf.jconf, "set", JSparkConf, (JString, JString), "yarn.scheduler.maximum-allocation-mb", "3096")
     jcall(conf.jconf, "set", JSparkConf, (JString, JString), "yarn.nodemanager.resource.memory-mb", "3096")
+
+    #Spark history server related
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.history.ui.port", "18080")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.eventLog.enabled", "true")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.eventLog.dir", "hdfs:///var/log/spark/apps")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.history.fs.logDirectory", "hdfs:///var/log/spark/apps")
+    jcall(conf.jconf, "set", JSparkConf, (JString, JString), "spark.yarn.historyServer.address", "ip-172-31-9-255.eu-west-1.compute.internal:18080")
 end
