@@ -166,9 +166,11 @@ object JuliaRDD extends Logging {
       case SpecialLengths.JULIA_EXCEPTION_THROWN =>
         // Signals that an exception has been thrown in julia
         val exLength = stream.readInt()
-        val obj = new Array[Byte](exLength)
+        val strlength = -exLength + SpecialLengths.STRING_START
+        val obj = new Array[Byte](strlength)
         stream.readFully(obj)
-        throw new Exception(new String(obj, Charsets.UTF_8))
+        val str = new String(obj, Charsets.UTF_8)
+        throw new Exception(str)
       case SpecialLengths.ARRAY_VALUE =>
         val ab = new collection.mutable.ArrayBuffer[Any]()
         while(typeLength == SpecialLengths.ARRAY_VALUE) {
@@ -194,7 +196,7 @@ object JuliaRDD extends Logging {
           throw new RuntimeException("Protocol error")
         }
     }
-    
+
   }
 
   def readRDDFromFile(sc: JavaSparkContext, filename: String, parallelism: Int): JavaRDD[Any] = {
@@ -225,7 +227,7 @@ object JuliaRDD extends Logging {
     dataStream.flush()
     byteArrayOut.toByteArray()
   }
-  
+
   def collectToJulia(rdd: JavaRDD[Any]): Array[Byte] = {
     collectToByteArray[Any](rdd.collect())
   }
