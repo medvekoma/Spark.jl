@@ -110,22 +110,23 @@ function launch_worker()
         #info("Julia: starting partition id: $split")
         func = readobj(sock)[2]
         it = load_stream(sock)
+        info(func)
         dump_stream(sock, func(split, it))
         writeint(sock, END_OF_DATA_SECTION)
         writeint(sock, END_OF_STREAM)
-        info("Julia: exiting normally")
+        #info("Julia: exiting normally")
     catch e
         # TODO: handle the case when JVM closes connection
-        info("Exception Handler")
+        #info("Exception Handler")
         io = IOBuffer()
         Base.show_backtrace(io, catch_backtrace())
         seekstart(io)
         bt = readstring(io)
         info(e)
         info(bt)
-        write(sock, bt)
         writeint(sock, JULIA_EXCEPTION_THROWN)
-        info("Written error response to socket. Exiting")
+        writeobj(sock, string(e) * bt)
+        #info("Written error response to socket. Exiting")
         #rethrow()
     end
 end
