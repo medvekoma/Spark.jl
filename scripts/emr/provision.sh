@@ -41,7 +41,7 @@ RESULT=$(
   --configurations '[{
                      "Classification": "yarn-site",
                      "Properties": {
-                                    "yarn.nodemanager.vmem.check.enabled": "false",
+                                    "yarn.nodemanager.vmem-check-enabled": "false",
                                     "yarn.nodemanager.resource.memory-mb": "6656",
                                     "yarn.scheduler.maximum-allocation-mb": "6656"
                                     }
