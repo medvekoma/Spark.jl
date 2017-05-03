@@ -38,6 +38,14 @@ RESULT=$(
 	--applications Name=Spark \
 	--bootstrap-action Path=$S3_BOOTSTRAP,Args=[$SPARKJL_REPO,$SPARKJL_BRANCH] \
 	--log-uri $S3_LOG \
+  --configurations '[{
+                     "Classification": "yarn-site",
+                     "Properties": {
+                                    "yarn.nodemanager.vmem.check.enabled": "false",
+                                    "yarn.nodemanager.resource.memory-mb": "6656",
+                                    "yarn.scheduler.maximum-allocation-mb": "6656"
+                                    }
+                    }]' \
 	--instance-groups \
 	  InstanceGroupType=MASTER,InstanceCount=1,InstanceType=$INSTANCE_TYPE,BidPrice=$SPOT_BIDPRICE \
 	  InstanceGroupType=CORE,InstanceCount=$CORE_COUNT,InstanceType=$INSTANCE_TYPE,BidPrice=$SPOT_BIDPRICE \
