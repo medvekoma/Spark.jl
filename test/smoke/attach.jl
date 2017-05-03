@@ -2,7 +2,15 @@
 print("\n\n\nStarting test: "*(@__FILE__)*"\n")
 
 @attach a = 2
-@attach include("attach_include.jl")
+
+# attach cannot be used with include on Spark.jl
+#@attach include("attach_include.jl")
+
+
+@attach function func(s)
+    length(s) + a
+end
+
 
 # test of basic functionality
 txt = parallelize(sc, ["hello", "world"])
