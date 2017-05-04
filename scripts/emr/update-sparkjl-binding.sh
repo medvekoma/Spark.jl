@@ -33,5 +33,5 @@ done
 # rebuild Spark.jl on master 
 EMR_MASTER_IP=$(${SCRIPT_DIR}/get_master_node_ip.sh)
 echo -e "\n\n\nRebuild Spark.jl on EMR master: $EMR_MASTER_IP"
-ssh -i ${SCRIPT_DIR}/DevTeamEPAM.pem  -n hadoop@${EMR_MASTER_IP} "cd /home/hadoop/.julia/v0.5/Spark/jvm/sparkjl; mvn clean package -P yarn"
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -oServerAliveInterval=30 -i ${SCRIPT_DIR}/DevTeamEPAM.pem  -n hadoop@${EMR_MASTER_IP} "cd /home/hadoop/.julia/v0.5/Spark/jvm/sparkjl; mvn clean package -P yarn"
 
