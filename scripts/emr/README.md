@@ -5,7 +5,7 @@
 ### Requirements
 
 1. A preconfigured AWS client
-1. Environment variables SPARKJL_REPO and SPARKJL_BRANCH (if they are different from *JohnAdders* and *shared*, respectively)
+1. Environment variables SPARKJL_REPO and SPARKJL_BRANCH (if they are different from *Kalman85* and *shared*, respectively)
 1. Access to S3 bucket *fms-develop*
 1. Environment variable USER (automatically set on Linux, recommended setting on Windows)
 
@@ -26,7 +26,7 @@ This script can update the Julia Spark binding on any EMR cluster that already h
 ### Requirements
 
 1. A preconfigured AWS client
-1. Environment variables SPARKJL_REPO and SPARKJL_BRANCH (if they are different from *JohnAdders* and *shared*, respectively)
+1. Environment variables SPARKJL_REPO and SPARKJL_BRANCH (if they are different from *Kalman85* and *shared*, respectively)
 1. The [jq utility](https://stedolan.github.io/jq/download/) available on the PATH
 1. SSH configuration, as described below
 
