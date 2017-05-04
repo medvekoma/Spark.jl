@@ -3,7 +3,7 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #"
 
-CLUSTER_NAME=${1-${USER}-juliapoc}
+CLUSTER_NAME=${1-${USER}-juliapoc-02}
 CORE_COUNT=3
 TASK_COUNT=0
 SPOT_BIDPRICE=0.09
@@ -27,7 +27,7 @@ SUBNET_ID=subnet-b23327d6
 #AWS_PROFILE="--profile fms-playground"
 AWS_PROFILE=""
 
-aws s3 cp --recursive . $S3_SCRIPTS/ ${AWS_PROFILE}
+aws s3 cp --recursive ${SCRIPT_DIR}/bootstrap $S3_SCRIPTS/ ${AWS_PROFILE}
 
 RESULT=$(
     aws emr create-cluster \
