@@ -107,14 +107,16 @@ function launch_worker()
     sock = connect("127.0.0.1", port)
     try
         split = readint(sock)
-        #info("Julia: starting partition id: $split")
+        info(string(now(), " >>> Julia: starting partition id: $split"))
         func = readobj(sock)[2]
+        info(string(now(), " >>> Julia: func loaded"))
         it = load_stream(sock)
+        info(string(now(), " >>> Julia: stream loaded"))
         info(func)
         dump_stream(sock, func(split, it))
         writeint(sock, END_OF_DATA_SECTION)
         writeint(sock, END_OF_STREAM)
-        #info("Julia: exiting normally")
+        info(string(now(), " >>> Julia: exiting normally"))
     catch e
         # TODO: handle the case when JVM closes connection
         #info("Exception Handler")
