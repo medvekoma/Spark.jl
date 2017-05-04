@@ -14,7 +14,7 @@ INSTANCE_TYPE=c4.xlarge
 
 echo "Bootstrapping from the github repo $SPARKJL_REPO/$SPARKJL_BRANCH..."
 
-S3_BUCKET=s3://fms.develop
+S3_BUCKET=s3://fms.develop/${USER}
 S3_SCRIPTS=$S3_BUCKET/app/scripts
 S3_BOOTSTRAP=$S3_SCRIPTS/bootstrap.sh
 S3_LOG=$S3_BUCKET/logs
