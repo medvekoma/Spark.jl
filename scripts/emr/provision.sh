@@ -9,7 +9,7 @@ TASK_COUNT=0
 SPOT_BIDPRICE=0.09
 INSTANCE_TYPE=c4.xlarge
 
-: ${SPARKJL_REPO:="JohnAdders"}
+: ${SPARKJL_REPO:="Kalman85"}
 : ${SPARKJL_BRANCH:="shared"}
 
 echo "Bootstrapping from the github repo $SPARKJL_REPO/$SPARKJL_BRANCH..."
