@@ -46,7 +46,7 @@ Host *.compute.amazonaws.com
 ### Usage
 
 ```bash
-./update-sparkjl-binding.sh <emr-cluster-id>
+./update-sparkjl-binding.sh
 ```
 
 If you don't specify an emr-cluster-id, the script will ask you to enter one.
