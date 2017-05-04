@@ -25,7 +25,7 @@ RESULT=0
 aws emr list-instances --cluster-id $CLUSTER_ID | jq -r .Instances[].PublicDnsName | while read line; do 
 	node=`echo $line | sed 's/[^a-zA-Z0-9\.\-]//g'` 
 	echo "--- $node ---"
-	ssh $node "
+	ssh -n $node "
 	    export SPARKJL_PROFILE='yarn'; julia -e '
             Pkg.free(\"Spark\")
             Pkg.rm(\"Spark\")
