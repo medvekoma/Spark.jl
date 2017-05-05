@@ -77,12 +77,12 @@ class OutputThread(context: TaskContext, it: Iterator[Any], worker: Socket, comm
 
   def writeIteratorToStream[T](iter: Iterator[T], dataOut: DataOutputStream) {
     def write(obj: Any): Unit = {
-      val start = System.currentTimeMillis()
       JuliaRDD.writeValueToStream(obj, dataOut)
-      val diff = System.currentTimeMillis() - start
-      logInfo(s"ASZU writeIteratorToStream in $diff ms.")
     }
+    val start = System.currentTimeMillis()
     iter.foreach(write)
+    val diff = System.currentTimeMillis() - start
+    logInfo(s"ASZU writeIteratorToStream in $diff ms.")
   }
 
 }
