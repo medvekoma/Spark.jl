@@ -200,6 +200,7 @@ object JuliaRDD extends Logging {
   }
 
   def readRDDFromFile(sc: JavaSparkContext, filename: String, parallelism: Int): JavaRDD[Any] = {
+    logInfo(s"readRDDFromFile($filename, $parallelism)")
     val file = new DataInputStream(new FileInputStream(filename))
     try {
       val objs = new collection.mutable.ArrayBuffer[Any]

@@ -86,12 +86,7 @@ end
 
 
 function dump_stream(io::IO, it)
-    index = 0
     for v in it
-        if (index == 0)
-          info("dump_stream - first type: $(typeof(v))")
-          index += 1
-        end
         writeobj(io, v)
     end
 end
