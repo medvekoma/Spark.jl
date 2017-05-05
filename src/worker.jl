@@ -86,6 +86,11 @@ end
 
 
 function dump_stream(io::IO, it)
+    info("dump_stream - list type: $(typeof(it))")
+    if (length(it) > 0)
+      element = first(it)
+      info("dump_stream - element type: $(typeof(element))")
+    end
     for v in it
         writeobj(io, v)
     end
