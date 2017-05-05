@@ -224,7 +224,10 @@ object JuliaRDD extends Logging {
   def collectToByteArray[T](javaCollected: java.util.List[T]): Array[Byte] = {
     val byteArrayOut = new ByteArrayOutputStream()
     val dataStream = new DataOutputStream(byteArrayOut)
+    val start = System.currentTimeMillis()
     writeValueToStream(javaCollected, dataStream)
+    val diff = System.currentTimeMillis() - start
+    logInfo(s"ASZU collectToByteArray in $diff ms")
     dataStream.flush()
     byteArrayOut.toByteArray()
   }

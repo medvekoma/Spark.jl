@@ -3,6 +3,7 @@ package org.apache.spark.api.julia
 import java.io.{BufferedOutputStream, DataOutputStream}
 import java.net.Socket
 
+import org.apache.spark.internal.Logging
 import org.apache.spark.util.Utils
 import org.apache.spark.{Partition, SparkEnv, TaskContext}
 
@@ -11,7 +12,7 @@ import org.apache.spark.{Partition, SparkEnv, TaskContext}
  * Julia process.
  */
 class OutputThread(context: TaskContext, it: Iterator[Any], worker: Socket, command: Array[Byte], split: Partition)
-    extends Thread(s"stdout writer for julia") {
+    extends Thread(s"stdout writer for julia") with Logging {
 
   val BUFFER_SIZE = 65536
 
@@ -76,7 +77,10 @@ class OutputThread(context: TaskContext, it: Iterator[Any], worker: Socket, comm
 
   def writeIteratorToStream[T](iter: Iterator[T], dataOut: DataOutputStream) {
     def write(obj: Any): Unit = {
+      val start = System.currentTimeMillis()
       JuliaRDD.writeValueToStream(obj, dataOut)
+      val diff = System.currentTimeMillis() - start
+      logInfo(s"ASZU writeIteratorToStream in $diff ms.")
     }
     iter.foreach(write)
   }
