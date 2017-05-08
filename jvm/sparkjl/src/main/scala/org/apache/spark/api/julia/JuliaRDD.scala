@@ -109,8 +109,8 @@ object JuliaRDD extends Logging {
       if (serverSocket != null) {
         serverSocket.close()
       }
+      logInfo(s"ASZU JuliaRDD total read time: $totalReadMs ms. (reads: $totalReads strings: $totalStrings)")
     }
-    logInfo(s"ASZU JuliaRDD total read time: $totalReadMs ms. (reads: $totalReads strings: $totalStrings)")
     null
   }
 
@@ -191,12 +191,13 @@ object JuliaRDD extends Logging {
         stream.readLong()
       case SpecialLengths.STRING_START =>
         ""
-      case length if length < SpecialLengths.STRING_START =>
+      case length if length < SpecialLengths.STRING_START => {
         totalStrings += 1
         val strlength = -length + SpecialLengths.STRING_START
         val obj = new Array[Byte](strlength)
         stream.readFully(obj)
         new String(obj, Charsets.UTF_8)
+      }
       case SpecialLengths.END_OF_DATA_SECTION =>
         if (stream.readInt() == SpecialLengths.END_OF_STREAM) {
           null
