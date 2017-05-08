@@ -1,7 +1,6 @@
 package org.apache.spark.api.julia
 
 import java.io._
-import java.lang.ThreadLocal
 import java.net._
 
 import org.apache.commons.compress.utils.Charsets
@@ -12,7 +11,6 @@ import org.apache.spark.rdd.RDD
 
 import scala.collection.JavaConversions._
 import scala.language.existentials
-import scala.collection.convert.Wrappers._
 import scala.reflect.ClassTag
 
 class AbstractJuliaRDD[T:ClassTag](
@@ -66,15 +64,14 @@ private object SpecialLengths {
 
 object JuliaRDD extends Logging {
 
-  var totalReadMs: ThreadLocal[Long] = new ThreadLocal[Long]
-  var totalReads: ThreadLocal[Long] = new ThreadLocal[Long]
+  var totalReadMs: Long = 0
+  var totalReads: Long = 0
+  var totalStrings: Long = 0
 
   def fromRDD[T](rdd: RDD[T], command: Array[Byte]): JuliaRDD =
     new JuliaRDD(rdd, command)
 
   def createWorker(): Socket = {
-    totalReadMs.set(0)
-    totalReads.set(0)
     var serverSocket: ServerSocket = null
     try {
       serverSocket = new ServerSocket(0, 1, InetAddress.getByAddress(Array(127, 0, 0, 1).map(_.toByte)))
@@ -112,7 +109,7 @@ object JuliaRDD extends Logging {
       if (serverSocket != null) {
         serverSocket.close()
       }
-      logInfo(s"ASZU JuliaRDD total read time: ${totalReadMs.get} ms. (${totalReads.get} strings)")
+      logInfo(s"ASZU JuliaRDD total read time: $totalReadMs ms. (reads: $totalReads strings: $totalStrings)")
     }
     null
   }
@@ -195,7 +192,7 @@ object JuliaRDD extends Logging {
       case SpecialLengths.STRING_START =>
         ""
       case length if length < SpecialLengths.STRING_START =>
-        totalReads.set(totalReads.get() + 1)
+        totalStrings += 1
         val strlength = -length + SpecialLengths.STRING_START
         val obj = new Array[Byte](strlength)
         stream.readFully(obj)
@@ -209,7 +206,8 @@ object JuliaRDD extends Logging {
     }
 
     val diff = System.currentTimeMillis() - start
-    totalReadMs.set(totalReadMs.get() + diff)
+    totalReadMs += diff
+    totalReads += 1
 
     result
   }
