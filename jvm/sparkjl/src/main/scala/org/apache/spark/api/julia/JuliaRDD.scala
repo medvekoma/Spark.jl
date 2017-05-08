@@ -1,6 +1,7 @@
 package org.apache.spark.api.julia
 
 import java.io._
+import java.lang.ThreadLocal
 import java.net._
 
 import org.apache.commons.compress.utils.Charsets
@@ -65,12 +66,15 @@ private object SpecialLengths {
 
 object JuliaRDD extends Logging {
 
-  var totalReadMs: Long = 0
+  var totalReadMs: ThreadLocal[Long] = new ThreadLocal[Long]
+  var totalReads: ThreadLocal[Long] = new ThreadLocal[Long]
 
   def fromRDD[T](rdd: RDD[T], command: Array[Byte]): JuliaRDD =
     new JuliaRDD(rdd, command)
 
   def createWorker(): Socket = {
+    totalReadMs.set(0)
+    totalReads.set(0)
     var serverSocket: ServerSocket = null
     try {
       serverSocket = new ServerSocket(0, 1, InetAddress.getByAddress(Array(127, 0, 0, 1).map(_.toByte)))
@@ -108,7 +112,7 @@ object JuliaRDD extends Logging {
       if (serverSocket != null) {
         serverSocket.close()
       }
-      logInfo(s"ASZU JuliaRDD total read time: $totalReadMs ms.")
+      logInfo(s"ASZU JuliaRDD total read time: $totalReadMs ms. ($totalReads strings)")
     }
     null
   }
@@ -191,6 +195,7 @@ object JuliaRDD extends Logging {
       case SpecialLengths.STRING_START =>
         ""
       case length if length < SpecialLengths.STRING_START =>
+        totalReads.set(totalReads.get() + 1)
         val strlength = -length + SpecialLengths.STRING_START
         val obj = new Array[Byte](strlength)
         stream.readFully(obj)
@@ -204,8 +209,8 @@ object JuliaRDD extends Logging {
     }
 
     val diff = System.currentTimeMillis() - start
-    totalReadMs += diff
-    
+    totalReadMs.set(totalReadMs.get() + diff)
+
     result
   }
 
