@@ -136,7 +136,9 @@ object JuliaRDD extends Logging {
       case it: Iterator[_] =>
         while (it.hasNext) {
           dataOut.writeInt(SpecialLengths.ARRAY_VALUE)
+          logInfo("ItemWrite started: " + System.currentTimeMillis())
           writeValueToStream(it.next(), dataOut)
+          logInfo("ItemWrite done: " + System.currentTimeMillis())
         }
         dataOut.writeInt(SpecialLengths.ARRAY_END)
       case x: Int =>
