@@ -65,6 +65,8 @@ private object SpecialLengths {
 
 object JuliaRDD extends Logging {
 
+  var totalReadMs: Long = 0
+
   def fromRDD[T](rdd: RDD[T], command: Array[Byte]): JuliaRDD =
     new JuliaRDD(rdd, command)
 
@@ -106,6 +108,7 @@ object JuliaRDD extends Logging {
       if (serverSocket != null) {
         serverSocket.close()
       }
+      logInfo(s"ASZU JuliaRDD total read time: $totalReadMs ms.")
     }
     null
   }
@@ -154,6 +157,9 @@ object JuliaRDD extends Logging {
   }
 
   def readValueFromStream(stream: DataInputStream) : Any = {
+
+    val start = System.currentTimeMillis()
+
     var typeLength = stream.readInt()
     typeLength match {
       case length if length > 0 =>
@@ -197,6 +203,8 @@ object JuliaRDD extends Logging {
         }
     }
 
+    val diff = System.currentTimeMillis() - start
+    totalReadMs += diff
   }
 
   def readRDDFromFile(sc: JavaSparkContext, filename: String, parallelism: Int): JavaRDD[Any] = {
