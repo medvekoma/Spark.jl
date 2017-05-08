@@ -112,7 +112,7 @@ object JuliaRDD extends Logging {
       if (serverSocket != null) {
         serverSocket.close()
       }
-      logInfo(s"ASZU JuliaRDD total read time: $totalReadMs ms. ($totalReads strings)")
+      logInfo(s"ASZU JuliaRDD total read time: ${totalReadMs.get} ms. (${totalReads.get} strings)")
     }
     null
   }
