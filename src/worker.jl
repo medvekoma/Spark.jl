@@ -86,9 +86,11 @@ end
 
 
 function dump_stream(io::IO, it)
+    info(string(now(), " ASZU Julia: dump_stream started"))
     for v in it
         writeobj(io, v)
     end
+    info(string(now(), " ASZU Julia: dump_stream finished"))
 end
 
 
