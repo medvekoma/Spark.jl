@@ -161,7 +161,7 @@ object JuliaRDD extends Logging {
     val start = System.currentTimeMillis()
 
     var typeLength = stream.readInt()
-    typeLength match {
+    val result = typeLength match {
       case length if length > 0 =>
         val obj = new Array[Byte](length)
         stream.readFully(obj)
@@ -205,6 +205,8 @@ object JuliaRDD extends Logging {
 
     val diff = System.currentTimeMillis() - start
     totalReadMs += diff
+    
+    result
   }
 
   def readRDDFromFile(sc: JavaSparkContext, filename: String, parallelism: Int): JavaRDD[Any] = {
