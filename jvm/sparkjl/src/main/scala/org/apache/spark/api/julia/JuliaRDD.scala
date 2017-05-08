@@ -64,9 +64,9 @@ private object SpecialLengths {
 
 object JuliaRDD extends Logging {
 
-  var totalReadMs: Long = 0
-  var totalReads: Long = 0
-  var totalStrings: Long = 0
+  var totalReadMs: Long = -1
+  var totalReads: Long = -1
+  var totalStrings: Long = -1
 
   def fromRDD[T](rdd: RDD[T], command: Array[Byte]): JuliaRDD =
     new JuliaRDD(rdd, command)
@@ -109,8 +109,8 @@ object JuliaRDD extends Logging {
       if (serverSocket != null) {
         serverSocket.close()
       }
-      logInfo(s"ASZU JuliaRDD total read time: $totalReadMs ms. (reads: $totalReads strings: $totalStrings)")
     }
+    logInfo(s"ASZU JuliaRDD total read time: $totalReadMs ms. (reads: $totalReads strings: $totalStrings)")
     null
   }
 
