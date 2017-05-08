@@ -2,6 +2,8 @@ package org.apache.spark.api.julia
 
 import java.io.{BufferedOutputStream, DataOutputStream}
 import java.net.Socket
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 import org.apache.spark.internal.Logging
 import org.apache.spark.util.Utils
@@ -75,6 +77,15 @@ class OutputThread(context: TaskContext, it: Iterator[Any], worker: Socket, comm
     }
   }
 
+  val dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+
+  def logMessage(msg: String): Unit = {
+    val now = Calendar.getInstance().getTime()
+    val nowText = dateFormat.format(now)
+
+    logInfo(s"$nowText - ASZU - $msg")
+  }
+
   def writeIteratorToStream[T](iter: Iterator[T], dataOut: DataOutputStream) {
     def write(obj: Any): Unit = {
       JuliaRDD.writeValueToStream(obj, dataOut)
@@ -82,7 +93,7 @@ class OutputThread(context: TaskContext, it: Iterator[Any], worker: Socket, comm
     val start = System.currentTimeMillis()
     iter.foreach(write)
     val diff = System.currentTimeMillis() - start
-    logInfo(s"ASZU writeIteratorToStream in $diff ms.")
+    logMessage(s"writeIteratorToStream in $diff ms.")
   }
 
 }
