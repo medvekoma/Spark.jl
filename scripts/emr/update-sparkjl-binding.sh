@@ -16,7 +16,7 @@ fi
 aws emr list-instances --cluster-id $CLUSTER_ID | jq -r .Instances[].PublicDnsName | while read line; do 
 	node=`echo $line | sed 's/[^a-zA-Z0-9\.\-]//g'` 
 	echo "--- $node ---"
-	ssh -n $node "julia -e '
+	ssh -n $node "export SPARKJL_PROFILE='yarn'; julia -e '
 		Pkg.free(\"Spark\")
 		Pkg.rm(\"Spark\")
 		Pkg.clone(\"https://github.com/'$SPARKJL_REPO'/Spark.jl\")
