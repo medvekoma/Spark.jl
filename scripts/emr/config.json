@@ -1,0 +1,20 @@
+[
+  {
+    "Classification": "yarn-env",
+    "Properties": {},
+    "Configurations": [
+      {
+        "Classification": "export",
+        "Properties": {
+          "JAVA_HOME": "/usr/lib/jvm/java",
+          "SPARK_HOME": "/usr/lib/spark/",
+          "HADOOP_CONF_DIR": "/etc/hadoop/conf",
+          "YARN_CONF_DIR": "/etc/hadoop/conf",
+          "SPARKJL_PROFILE": "yarn",
+          "JULIA_HOME": "/usr/local/julia-6445c82d00/bin/",
+          "JULIA_PKGDIR": "/home/hadoop/.julia/"
+        }
+      }
+    ]
+  }
+]

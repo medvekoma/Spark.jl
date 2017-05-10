@@ -11,7 +11,7 @@ INSTANCE_TYPE=c4.xlarge
 
 echo "Bootstrapping from the github repo $SPARKJL_REPO/$SPARKJL_BRANCH..."
 
-S3_BUCKET=s3://fms.develop
+S3_BUCKET=s3://fms.develop/$USER
 S3_SCRIPTS=$S3_BUCKET/app/scripts
 S3_BOOTSTRAP=$S3_SCRIPTS/bootstrap.sh
 S3_LOG=$S3_BUCKET/logs
@@ -24,10 +24,11 @@ SUBNET_ID=subnet-b23327d6
 #AWS_PROFILE="--profile fms-playground"
 AWS_PROFILE=""
 
-aws s3 cp --recursive . $S3_SCRIPTS/ ${AWS_PROFILE}
+aws s3 cp bootstrap.sh $S3_SCRIPTS/ ${AWS_PROFILE}
 
 aws emr create-cluster \
 	--name "$CLUSTER_NAME" \
+    --configurations file://config.json \
 	--ec2-attributes KeyName=$KEY_NAME,SubnetId=$SUBNET_ID,InstanceProfile="EMR_EC2_DefaultRole" \
 	--service-role EMR_DefaultRole \
 	--release-label emr-5.4.0 \
